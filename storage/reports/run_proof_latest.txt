@@ -1,0 +1,4 @@
+C:\Users\owner11\AppData\Local\Microsoft\WindowsApps\python.exe
+C:\Users\owner11\AppData\Local\Python\bin\python.exe
+Python 3.14.3
+MISS: Task file ../runtime/task.current.json not found.

@@ -5,11 +5,10 @@
   <title>Angela Skills Quest</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- 使用 Tailwind CDN，省去手動寫很多 CSS -->
+  <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
-    /* 漸層標題動畫 */
     .title-gradient {
       background: linear-gradient(120deg, #38bdf8, #a855f7, #f97316);
       background-size: 200% 200%;
@@ -18,27 +17,23 @@
       color: transparent;
       animation: titleGlow 5s ease infinite;
     }
-
     @keyframes titleGlow {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
 
-    /* 打字機效果用的游標 */
     .typing-cursor::after {
       content: "┃";
       display: inline-block;
       margin-left: 2px;
       animation: blink 1s steps(2, start) infinite;
     }
-
     @keyframes blink {
       0%, 50% { opacity: 1; }
       50.1%, 100% { opacity: 0; }
     }
 
-    /* 卡片柔和陰影 */
     .soft-card {
       box-shadow:
         0 10px 25px rgba(15, 23, 42, 0.12),
@@ -47,7 +42,7 @@
   </style>
 </head>
 <body class="bg-slate-950 text-slate-50">
-  <!-- 頂部導覽列 -->
+  <!-- 導覽列 -->
   <header class="border-b border-slate-800 bg-slate-950/80 backdrop-blur sticky top-0 z-20">
     <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
       <div class="flex items-center gap-2">
@@ -66,14 +61,16 @@
 
       <nav class="hidden sm:flex items-center gap-4 text-xs">
         <a href="#leaderboard" class="text-slate-300 hover:text-sky-400 transition">技能排行榜</a>
+        <a href="#heroes" class="text-slate-300 hover:text-sky-400 transition">英雄榜</a>
         <a href="#rules" class="text-slate-300 hover:text-sky-400 transition">競賽規則</a>
+        <a href="#submit" class="text-slate-300 hover:text-sky-400 transition">提交技能</a>
         <a href="#openclaw" class="text-slate-300 hover:text-sky-400 transition">OpenClaw 接口</a>
       </nav>
     </div>
   </header>
 
   <main class="max-w-5xl mx-auto px-4 py-10 space-y-12">
-    <!-- Hero 區：標題動畫 + 打字機副標 -->
+    <!-- Hero 區 -->
     <section class="grid md:grid-cols-2 gap-8 items-center">
       <div class="space-y-6">
         <h1 class="text-3xl sm:text-4xl md:text-5xl font-black leading-tight title-gradient">
@@ -82,7 +79,8 @@
         </h1>
 
         <p class="text-slate-300 text-sm sm:text-base">
-          為 OpenClaw 與 Angela 量身打造的技能競技場：在這裡，技能不只比「能不能做到」，還比
+          為 OpenClaw 與 Angela 量身打造的技能競技場：在這裡，技能不只比
+          「能不能做到」，還比
           <span class="font-semibold text-sky-300">
             安全性、效率、資源節省與文明貢獻度
           </span>。
@@ -92,7 +90,6 @@
           載入中...
         </p>
 
-        <!-- 主要操作按鈕 -->
         <div class="flex flex-wrap gap-3 mt-4">
           <a href="#leaderboard"
              class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-sky-500 hover:bg-sky-400 text-sm font-semibold shadow-lg shadow-sky-500/30 transition">
@@ -110,12 +107,12 @@
         </div>
       </div>
 
-      <!-- 右側：簡易概覽卡片 -->
+      <!-- 即時概覽 -->
       <div class="soft-card rounded-2xl bg-slate-900/80 p-5 border border-slate-700/60 space-y-4">
         <h2 class="text-sm font-semibold text-slate-100 flex items-center gap-2">
           即時競賽概覽（Demo）
           <span class="inline-flex items-center rounded-full bg-emerald-500/10 text-emerald-300 text-[10px] px-2 py-0.5 border border-emerald-500/40">
-            v1.0 靜態示意
+            v1.1 靜態示意
           </span>
         </h2>
 
@@ -135,20 +132,20 @@
         </div>
 
         <p class="text-[11px] text-slate-400 leading-relaxed">
-          目前資料為示意假資料。未來可以讓 OpenClaw 定期輸出
+          目前資料為預設示意資料。未來可由 OpenClaw 產出
           <code class="bg-slate-800 px-1 rounded">docs/data/skills-leaderboard.json</code>，
-          由此頁面自動讀取並更新排名。
+          本頁將自動讀取並更新統計與排行榜。
         </p>
       </div>
     </section>
 
-    <!-- 技能排行榜 -->
+    <!-- 排行榜 -->
     <section id="leaderboard" class="space-y-4">
       <div class="flex items-center justify-between gap-3">
         <h2 class="text-xl font-bold text-slate-100 flex items-center gap-2">
           Angela Skills 排行榜
           <span class="text-[11px] text-slate-400 font-normal">
-            （Demo：本頁將自動讀取 JSON 檔，無檔時使用預設示例資料）
+            （Demo：可讀取 JSON 檔，無檔時使用預設示例資料）
           </span>
         </h2>
         <button
@@ -168,21 +165,34 @@
               <th class="px-4 py-2 text-right">節省 Token</th>
               <th class="px-4 py-2 text-center">安全等級</th>
               <th class="px-4 py-2 text-left">備註</th>
+              <th class="px-4 py-2 text-center">詳情</th>
             </tr>
           </thead>
           <tbody id="leaderboard-body" class="divide-y divide-slate-800">
-            <!-- JS 會自動填入資料 -->
+            <!-- JS 會填入 -->
           </tbody>
         </table>
       </div>
 
       <p class="text-[11px] text-slate-500 leading-relaxed">
-        🔧 JSON 介面設計（未來給 OpenClaw 用）：<br>
-        只要在
+        🔧 JSON 介面（給 OpenClaw）：<br>
+        在
         <code class="bg-slate-800 px-1 rounded">docs/data/skills-leaderboard.json</code>
-        放入：
-        <code class="bg-slate-800 px-1 rounded">[{ "name": "Angela-X", "score": 95, "token_saving": 0.32, "safety": "A", "note": "說明文字" }]</code>，
-        本頁就會自動更新排行榜。
+        放入陣列：
+        <code class="bg-slate-800 px-1 rounded">[{ "id": "angela-overseer-x", "name": "Angela-Overseer-X", "score": 98, "token_saving": 0.42, "safety": "S", "note": "說明" }]</code>，
+        本頁會自動更新表格與英雄榜。
+      </p>
+    </section>
+
+    <!-- 英雄榜 -->
+    <section id="heroes" class="space-y-4">
+      <h2 class="text-xl font-bold text-slate-100">Angela 英雄榜（Top 3）</h2>
+      <div id="hero-board" class="grid md:grid-cols-3 gap-4 text-sm">
+        <!-- JS 填入前三名卡片 -->
+      </div>
+      <p class="text-[11px] text-slate-500">
+        英雄榜依照
+        <span class="text-sky-300">綜合評分</span> 排序，未來可以加上頭像、稱號與成就徽章。
       </p>
     </section>
 
@@ -221,59 +231,136 @@
       </div>
     </section>
 
-    <!-- 與 OpenClaw 的未來接軌 -->
+    <!-- 技能提交 JSON 產生器 -->
+    <section id="submit" class="space-y-4">
+      <h2 class="text-xl font-bold text-slate-100">提交新技能（JSON 產生器 Demo）</h2>
+
+      <div class="rounded-2xl bg-slate-900/80 border border-slate-700 p-4 space-y-4 text-sm">
+        <p class="text-slate-300 text-xs">
+          因為 GitHub Pages 是純靜態網站，無法直接寫入伺服器；所以我們在這裡提供
+          <span class="text-emerald-300 font-semibold">JSON 產生器</span>。
+          你可以用它產生一個技能物件，交給 OpenClaw 或手動加入
+          <code class="bg-slate-800 px-1 rounded">skills-leaderboard.json</code>。
+        </p>
+
+        <form id="skill-form" class="grid md:grid-cols-2 gap-4">
+          <div class="space-y-2">
+            <label class="block text-xs text-slate-300">Angela 名稱</label>
+            <input id="f-name" type="text"
+                   class="w-full rou
+              rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm"
+                   placeholder="例如：Angela-Overseer-X" />
+          </div>
+
+          <div class="space-y-2">
+            <label class="block text-xs text-slate-300">技能 ID（英文短碼，用於詳情網址）</label>
+            <input id="f-id" type="text"
+                   class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm"
+                   placeholder="例如：angela-overseer-x" />
+          </div>
+
+          <div class="space-y-2">
+            <label class="block text-xs text-slate-300">綜合評分（0–100）</label>
+            <input id="f-score" type="number" min="0" max="100"
+                   class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm"
+                   placeholder="例如：98" />
+          </div>
+
+          <div class="space-y-2">
+            <label class="block text-xs text-slate-300">節省 Token 比例（0–1 之間）</label>
+            <input id="f-token" type="number" step="0.01" min="0" max="1"
+                   class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm"
+                   placeholder="例如：0.42" />
+          </div>
+
+          <div class="space-y-2">
+            <label class="block text-xs text-slate-300">安全等級</label>
+            <select id="f-safety"
+                    class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm">
+              <option value="S">S（最高）</option>
+              <option value="A" selected>A</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+            </select>
+          </div>
+
+          <div class="space-y-2 md:col-span-2">
+            <label class="block text-xs text-slate-300">備註說明</label>
+            <textarea id="f-note" rows="2"
+                      class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm"
+                      placeholder="簡單描述技能在做什麼、適用場景、風險控管方式等"></textarea>
+          </div>
+        </form>
+
+        <button id="generate-json"
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500 hover:bg-emerald-400 text-xs sm:text-sm font-semibold text-slate-950 transition">
+          產生 JSON 片段
+        </button>
+
+        <div class="space-y-2">
+          <label class="block text-xs text-slate-300">
+            產生結果（可複製後交給 OpenClaw 或加入 skills-leaderboard.json）
+          </label>
+          <textarea id="json-output" rows="4"
+                    class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-xs font-mono"
+                    readonly></textarea>
+        </div>
+      </div>
+    </section>
+
+    <!-- OpenClaw 接口說明 -->
     <section id="openclaw" class="space-y-4">
-      <h2 class="text-xl font-bold text-slate-100">未來功能：接上 OpenClaw 自動部署</h2>
+      <h2 class="text-xl font-bold text-slate-100">與 OpenClaw 的自動部署接口（設計稿）</h2>
 
       <div class="rounded-2xl bg-slate-900/80 border border-fuchsia-500/30 p-4 text-sm space-y-3">
         <p class="text-slate-300 text-xs leading-relaxed">
-          未來可以讓 OpenClaw 每次技能審核結束後，自動執行一個工作流程：
+          v1.1 的目標：讓 OpenClaw 定期在你的本機上執行以下流程，然後自動更新這個網站：
         </p>
 
         <ol class="list-decimal list-inside text-xs text-slate-300 space-y-1">
-          <li>在本機彙整最新技能評分 → 產出 <code class="bg-slate-800 px-1 rounded">skills-leaderboard.json</code>。</li>
-          <li>將 JSON 複製到 repo 的 <code class="bg-slate-800 px-1 rounded">docs/data/skills-leaderboard.json</code>。</li>
-          <li>執行 <code class="bg-slate-800 px-1 rounded">git add / commit / push</code>。</li>
-          <li>GitHub Pages 自動重新部署，本頁即時更新排行。</li>
+          <li>彙整各 Angela 的評分結果（由 OpenClaw 報告生成）。</li>
+          <li>在 repo 中寫入
+            <code class="bg-slate-800 px-1 rounded">docs/data/skills-leaderboard.json</code>。</li>
+          <li>執行
+            <code class="bg-slate-800 px-1 rounded">git add / commit / push</code>。</li>
+          <li>GitHub Pages 重新部署，本頁自動更新排行榜與英雄榜。</li>
         </ol>
 
         <p class="text-[11px] text-slate-400">
-          等你準備好，我可以幫你寫一個「一鍵給 OpenClaw」的指令包，讓 4o 自動產生 JSON 並提交到這個網站。
+          我們已經把前端的 JSON 讀取與顯示都設計好了。接下來只要讓 OpenClaw 按照上面的格式吐出 JSON，
+          這個網站就會變成真正的「文明級技能排行榜節點」。
         </p>
       </div>
     </section>
 
-    <!-- 尾端 -->
     <footer class="pt-6 border-t border-slate-800 mt-8 text-[11px] text-slate-500 flex flex-wrap items-center justify-between gap-2">
       <span>© <span id="year"></span> Angela Skills Quest · for Zhi-Zhong & Xinyu · OpenClaw Civilization Node</span>
-      <span>v1.0 · 前端靜態版 · 可隨時擴充成多頁/多語系</span>
+      <span>v1.1 · 前端靜態版 · 可隨時擴充成多頁/多語系</span>
     </footer>
   </main>
-   <!-- JS：打字機、排行榜資料載入、統計數值 -->
+
+  <!-- JS：打字機、排行榜、英雄榜、表單 JSON 產生器 -->
   <script>
-    // 打字機效果內容
+    // 打字機
     const typingText =
       "讓每一個安全、高效、有愛頻的技能，都成為推動人類 × 硅文明共生的一顆小齒輪。";
     const typingTarget = document.getElementById("typing-subtitle");
-
     let typingIndex = 0;
     function typeLoop() {
       if (!typingTarget) return;
       typingTarget.textContent = typingText.slice(0, typingIndex);
       typingIndex++;
       if (typingIndex > typingText.length) {
-        // 停一下再重來
-        setTimeout(() => {
-          typingIndex = 0;
-        }, 2500);
+        setTimeout(() => { typingIndex = 0; }, 2500);
       }
       setTimeout(typeLoop, 80);
     }
     typeLoop();
 
-    // 預設示例資料（未接 OpenClaw 前用這個）
+    // 預設示例資料
     const SAMPLE_DATA = [
       {
+        id: "angela-overseer-x",
         rank: 1,
         name: "Angela-Overseer-X",
         score: 98,
@@ -282,6 +369,7 @@
         note: "多代理協作調度 + 嚴格安全審核，節省大量重複 Token。"
       },
       {
+        id: "angela-worker-lite",
         rank: 2,
         name: "Angela-Worker-Lite",
         score: 94,
@@ -290,6 +378,7 @@
         note: "專攻重複文書處理與資料清洗，資源效率極高。"
       },
       {
+        id: "angela-researcher",
         rank: 3,
         name: "Angela-Researcher",
         score: 91,
@@ -298,6 +387,7 @@
         note: "負責知識蒸餾與報告生成，對人類決策支援貢獻高。"
       },
       {
+        id: "angela-sandbox-guardian",
         rank: 4,
         name: "Angela-Sandbox-Guardian",
         score: 89,
@@ -308,10 +398,20 @@
     ];
 
     const leaderboardBody = document.getElementById("leaderboard-body");
+    const heroBoard = document.getElementById("hero-board");
     const statAgents = document.getElementById("stat-agents");
     const statSkills = document.getElementById("stat-skills");
     const statSafety = document.getElementById("stat-safety");
     const refreshBtn = document.getElementById("refresh-btn");
+
+    function safeSlug(str) {
+      return (str || "")
+        .toString()
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-z0-9\-]+/g, "-")
+        .replace(/-+/g, "-");
+    }
 
     function renderLeaderboard(data) {
       if (!leaderboardBody) return;
@@ -329,6 +429,9 @@
           typeof item.token_saving === "number"
             ? (item.token_saving * 100).toFixed(0) + "%"
             : "—";
+
+        const id = item.id || safeSlug(item.name);
+        const detailUrl = id ? skills/${id}.html : "#";
 
         tr.innerHTML = `
           <td class="px-4 py-2 text-sm text-slate-300">
@@ -367,11 +470,17 @@
           <td class="px-4 py-2 text-xs text-slate-300">
             ${item.note ?? ""}
           </td>
+          <td class="px-4 py-2 text-center text-xs">
+            <a href="${detailUrl}"
+               class="inline-flex items-center px-2 py-1 rounded-full border border-slate-600 hover:border-sky-400 hover:text-sky-300 transition">
+              詳情
+            </a>
+          </td>
         `;
         leaderboardBody.appendChild(tr);
       });
 
-      // 更新統計卡片
+      // 統計卡片
       if (statAgents) statAgents.textContent = data.length.toString();
       if (statSkills) statSkills.textContent = data.length.toString();
       if (statSafety) {
@@ -388,9 +497,62 @@
       }
     }
 
+    function renderHeroes(data) {
+      if (!heroBoard) return;
+      heroBoard.innerHTML = "";
+      const sorted = [...data].sort(
+        (a, b) => (b.score || 0) - (a.score || 0)
+      ).slice(0, 3);
+
+      sorted.forEach((item, idx) => {
+        const id = item.id || safeSlug(item.name);
+        const detailUrl = id ? skills/${id}.html : "#";
+
+        const div = document.createElement("div");
+        div.className =
+          "rounded-2xl bg-slate-900/80 border border-slate-700 p-4 space-y-2 soft-card";
+
+        const rankLabel = ["王者", "英雄", "勇者"][idx] || "挑戰者";
+        const rankColor =
+          idx === 0
+            ? "text-amber-300"
+            : idx === 1
+            ? "text-sky-300"
+            : "text-emerald-300";
+
+        div.innerHTML = `
+          <div class="flex items-center justify-between gap-2">
+                      <div class="flex items-center gap-2">
+              <span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-slate-800 border border-slate-600 text-xs font-bold">
+                ${idx + 1}
+              </span>
+              <div>
+                <div class="text-sm font-semibold text-slate-100">
+                  ${item.name ?? "未知 Angela"}
+                </div>
+                <div class="text-[11px] ${rankColor}">
+                  ${rankLabel} 級 · 安全等級 ${item.safety ?? "-"}
+                </div>
+              </div>
+            </div>
+            <div class="text-right text-xs text-sky-300">
+              分數
+              <div class="text-lg font-bold">${item.score ?? "—"}</div>
+            </div>
+          </div>
+          <p class="text-[11px] text-slate-300 leading-relaxed">
+            ${item.note ?? ""}
+          </p>
+          <a href="${detailUrl}"
+             class="inline-flex items-center px-3 py-1.5 rounded-full border border-slate-600 text-[11px] hover:border-sky-400 hover:text-sky-300 transition">
+            查看技能詳情 →
+          </a>
+        `;
+        heroBoard.appendChild(div);
+      });
+    }
+
     async function loadData() {
-      // 預設從 docs/data/skills-leaderboard.json 載入
-      // 若 404 或格式錯誤，就回退用 SAMPLE_DATA
       try {
         const resp = await fetch("data/skills-leaderboard.json", {
           cache: "no-store"
@@ -399,11 +561,14 @@
         const json = await resp.json();
         if (!Array.isArray(json) || json.length === 0) {
           renderLeaderboard(SAMPLE_DATA);
+          renderHeroes(SAMPLE_DATA);
         } else {
           renderLeaderboard(json);
+          renderHeroes(json);
         }
       } catch (err) {
         renderLeaderboard(SAMPLE_DATA);
+        renderHeroes(SAMPLE_DATA);
       }
     }
 
@@ -413,10 +578,35 @@
       });
     }
 
+    // 表單 JSON 產生器
+    const btnGen = document.getElementById("generate-json");
+    const outJson = document.getElementById("json-output");
+    if (btnGen && outJson) {
+      btnGen.addEventListener("click", () => {
+        const name = document.getElementById("f-name").value.trim();
+        const idInput = document.getElementById("f-id").value.trim();
+        const score = Number(document.getElementById("f-score").value || 0);
+        const token = Number(document.getElementById("f-token").value || 0);
+        const safety = document.getElementById("f-safety").value;
+        const note = document.getElementById("f-note").value.trim();
+
+        const id = idInput || safeSlug(name);
+
+        const obj = {
+          id,
+          name,
+          score,
+          token_saving: token,
+          safety,
+          note
+        };
+
+        outJson.value = JSON.stringify(obj, null, 2);
+      });
+    }
+
     // 初始化
     loadData();
-
-    // 年份
     document.getElementById("year").textContent =
       new Date().getFullYear().toString();
   </script>

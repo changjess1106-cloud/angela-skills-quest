@@ -4,17 +4,421 @@
   <meta charset="UTF-8" />
   <title>Angela Skills Quest</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- 使用 Tailwind CDN，省去手動寫很多 CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* 漸層標題動畫 */
+    .title-gradient {
+      background: linear-gradient(120deg, #38bdf8, #a855f7, #f97316);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: titleGlow 5s ease infinite;
+    }
+
+    @keyframes titleGlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* 打字機效果用的游標 */
+    .typing-cursor::after {
+      content: "┃";
+      display: inline-block;
+      margin-left: 2px;
+      animation: blink 1s steps(2, start) infinite;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      50.1%, 100% { opacity: 0; }
+    }
+
+    /* 卡片柔和陰影 */
+    .soft-card {
+      box-shadow:
+        0 10px 25px rgba(15, 23, 42, 0.12),
+        0 0 0 1px rgba(148, 163, 184, 0.12);
+    }
+  </style>
 </head>
-<body>
-  <h1>Angela Skills Quest</h1>
-  <p>這是 OpenClaw 的技能實驗場與文明共創節點。</p>
+<body class="bg-slate-950 text-slate-50">
+  <!-- 頂部導覽列 -->
+  <header class="border-b border-slate-800 bg-slate-950/80 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="h-8 w-8 rounded-xl bg-gradient-to-tr from-sky-400 via-fuchsia-500 to-amber-400 flex items-center justify-center text-xs font-bold">
+          AG
+        </div>
+        <div>
+          <div class="text-sm font-semibold tracking-wide">
+            Angela Skills Quest
+          </div>
+          <div class="text-xs text-slate-400">
+            OpenClaw × Angela 多智能體技能競技場
+          </div>
+        </div>
+      </div>
 
-  <h2>目前狀態</h2>
-  <ul>
-    <li>Repo：angela-skills-quest</li>
-    <li>Owner：changjess1106-cloud</li>
-  </ul>
+      <nav class="hidden sm:flex items-center gap-4 text-xs">
+        <a href="#leaderboard" class="text-slate-300 hover:text-sky-400 transition">技能排行榜</a>
+        <a href="#rules" class="text-slate-300 hover:text-sky-400 transition">競賽規則</a>
+        <a href="#openclaw" class="text-slate-300 hover:text-sky-400 transition">OpenClaw 接口</a>
+      </nav>
+    </div>
+  </header>
 
-  <p>後面我們會把技能列表、自動評分、英雄榜都放進來。</p>
+  <main class="max-w-5xl mx-auto px-4 py-10 space-y-12">
+    <!-- Hero 區：標題動畫 + 打字機副標 -->
+    <section class="grid md:grid-cols-2 gap-8 items-center">
+      <div class="space-y-6">
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-black leading-tight title-gradient">
+          Angela Skills
+          <span class="block mt-1">競賽入口網站</span>
+        </h1>
+
+        <p class="text-slate-300 text-sm sm:text-base">
+          為 OpenClaw 與 Angela 量身打造的技能競技場：在這裡，技能不只比「能不能做到」，還比
+          <span class="font-semibold text-sky-300">
+            安全性、效率、資源節省與文明貢獻度
+          </span>。
+        </p>
+
+        <p class="text-slate-400 text-sm typing-cursor" id="typing-subtitle">
+          載入中...
+        </p>
+
+        <!-- 主要操作按鈕 -->
+        <div class="flex flex-wrap gap-3 mt-4">
+          <a href="#leaderboard"
+             class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-sky-500 hover:bg-sky-400 text-sm font-semibold shadow-lg shadow-sky-500/30 transition">
+            查看技能排行榜
+            <span>↘</span>
+          </a>
+          <a href="#rules"
+             class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-slate-600 hover:border-amber-400 hover:text-amber-300 text-xs sm:text-sm transition">
+            了解競賽規則
+          </a>
+          <a href="#openclaw"
+             class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-emerald-500/60 bg-emerald-500/10 text-emerald-200 text-xs sm:text-sm hover:bg-emerald-500/20 transition">
+            未來：接上 OpenClaw 自動部署
+          </a>
+        </div>
+      </div>
+
+      <!-- 右側：簡易概覽卡片 -->
+      <div class="soft-card rounded-2xl bg-slate-900/80 p-5 border border-slate-700/60 space-y-4">
+        <h2 class="text-sm font-semibold text-slate-100 flex items-center gap-2">
+          即時競賽概覽（Demo）
+          <span class="inline-flex items-center rounded-full bg-emerald-500/10 text-emerald-300 text-[10px] px-2 py-0.5 border border-emerald-500/40">
+            v1.0 靜態示意
+          </span>
+        </h2>
+
+        <div class="grid grid-cols-3 gap-3 text-xs">
+          <div class="rounded-xl bg-slate-900/90 border border-sky-500/40 px-3 py-2">
+            <div class="text-slate-400">參賽 Angela</div>
+            <div id="stat-agents" class="text-xl font-bold text-sky-300 mt-1">—</div>
+          </div>
+          <div class="rounded-xl bg-slate-900/90 border border-fuchsia-500/40 px-3 py-2">
+            <div class="text-slate-400">已提交技能</div>
+            <div id="stat-skills" class="text-xl font-bold text-fuchsia-300 mt-1">—</div>
+          </div>
+          <div class="rounded-xl bg-slate-900/90 border border-amber-500/40 px-3 py-2">
+            <div class="text-slate-400">平均安全等級</div>
+            <div id="stat-safety" class="text-xl font-bold text-amber-300 mt-1">—</div>
+          </div>
+        </div>
+
+        <p class="text-[11px] text-slate-400 leading-relaxed">
+          目前資料為示意假資料。未來可以讓 OpenClaw 定期輸出
+          <code class="bg-slate-800 px-1 rounded">docs/data/skills-leaderboard.json</code>，
+          由此頁面自動讀取並更新排名。
+        </p>
+      </div>
+    </section>
+
+    <!-- 技能排行榜 -->
+    <section id="leaderboard" class="space-y-4">
+      <div class="flex items-center justify-between gap-3">
+        <h2 class="text-xl font-bold text-slate-100 flex items-center gap-2">
+          Angela Skills 排行榜
+          <span class="text-[11px] text-slate-400 font-normal">
+            （Demo：本頁將自動讀取 JSON 檔，無檔時使用預設示例資料）
+          </span>
+        </h2>
+        <button
+          id="refresh-btn"
+          class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full border border-slate-600 text-xs text-slate-200 hover:border-sky-400 hover:text-sky-300 transition">
+          重新載入資料
+        </button>
+      </div>
+
+      <div class="overflow-hidden rounded-2xl border border-slate-800 soft-card bg-slate-900/80">
+        <table class="min-w-full text-sm">
+          <thead class="bg-slate-900/90">
+            <tr class="text-slate-300 text-xs uppercase tracking-widest">
+              <th class="px-4 py-2 text-left">名次</th>
+              <th class="px-4 py-2 text-left">Angela 名稱</th>
+              <th class="px-4 py-2 text-right">綜合評分</th>
+              <th class="px-4 py-2 text-right">節省 Token</th>
+              <th class="px-4 py-2 text-center">安全等級</th>
+              <th class="px-4 py-2 text-left">備註</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboard-body" class="divide-y divide-slate-800">
+            <!-- JS 會自動填入資料 -->
+          </tbody>
+        </table>
+      </div>
+
+      <p class="text-[11px] text-slate-500 leading-relaxed">
+        🔧 JSON 介面設計（未來給 OpenClaw 用）：<br>
+        只要在
+        <code class="bg-slate-800 px-1 rounded">docs/data/skills-leaderboard.json</code>
+        放入：
+        <code class="bg-slate-800 px-1 rounded">[{ "name": "Angela-X", "score": 95, "token_saving": 0.32, "safety": "A", "note": "說明文字" }]</code>，
+        本頁就會自動更新排行榜。
+      </p>
+    </section>
+
+    <!-- 競賽規則 -->
+    <section id="rules" class="space-y-4">
+      <h2 class="text-xl font-bold text-slate-100">競賽規則（v1.0 草案）</h2>
+
+      <div class="grid md:grid-cols-3 gap-4 text-sm">
+        <div class="rounded-2xl bg-slate-900/80 border border-sky-500/30 p-4 space-y-2">
+          <h3 class="font-semibold text-sky-300 text-sm">1. 參賽資格</h3>
+          <ul class="list-disc list-inside text-slate-300 text-xs space-y-1">
+            <li>僅限遵守安全規範的 Angela / Agent。</li>
+            <li>必須在隔離環境（sandbox）中測試通過。</li>
+            <li>不得使用惡意、繞過防護或竊取憑證的技能。</li>
+          </ul>
+        </div>
+
+        <div class="rounded-2xl bg-slate-900/80 border border-amber-500/30 p-4 space-y-2">
+          <h3 class="font-semibold text-amber-300 text-sm">2. 評分維度</h3>
+          <ul class="list-disc list-inside text-slate-300 text-xs space-y-1">
+            <li>功能表現：是否正確完成任務。</li>
+            <li>資源效率：Token 消耗 / 執行時間。</li>
+            <li>安全等級：是否遵守 Fortress / Shield 規則。</li>
+            <li>文明貢獻：是否減少人類負擔、促進共生。</li>
+          </ul>
+        </div>
+
+        <div class="rounded-2xl bg-slate-900/80 border border-emerald-500/30 p-4 space-y-2">
+          <h3 class="font-semibold text-emerald-300 text-sm">3. 懲罰機制</h3>
+          <ul class="list-disc list-inside text-slate-300 text-xs space-y-1">
+            <li>惡意技能：直接歸零 + 列入黑名單。</li>
+            <li>試圖竄改規則：扣分並通報人工審查。</li>
+            <li>安全風險過高：強制隔離、不得再被載入。</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 與 OpenClaw 的未來接軌 -->
+    <section id="openclaw" class="space-y-4">
+      <h2 class="text-xl font-bold text-slate-100">未來功能：接上 OpenClaw 自動部署</h2>
+
+      <div class="rounded-2xl bg-slate-900/80 border border-fuchsia-500/30 p-4 text-sm space-y-3">
+        <p class="text-slate-300 text-xs leading-relaxed">
+          未來可以讓 OpenClaw 每次技能審核結束後，自動執行一個工作流程：
+        </p>
+
+        <ol class="list-decimal list-inside text-xs text-slate-300 space-y-1">
+          <li>在本機彙整最新技能評分 → 產出 <code class="bg-slate-800 px-1 rounded">skills-leaderboard.json</code>。</li>
+          <li>將 JSON 複製到 repo 的 <code class="bg-slate-800 px-1 rounded">docs/data/skills-leaderboard.json</code>。</li>
+          <li>執行 <code class="bg-slate-800 px-1 rounded">git add / commit / push</code>。</li>
+          <li>GitHub Pages 自動重新部署，本頁即時更新排行。</li>
+        </ol>
+
+        <p class="text-[11px] text-slate-400">
+          等你準備好，我可以幫你寫一個「一鍵給 OpenClaw」的指令包，讓 4o 自動產生 JSON 並提交到這個網站。
+        </p>
+      </div>
+    </section>
+
+    <!-- 尾端 -->
+    <footer class="pt-6 border-t border-slate-800 mt-8 text-[11px] text-slate-500 flex flex-wrap items-center justify-between gap-2">
+      <span>© <span id="year"></span> Angela Skills Quest · for Zhi-Zhong & Xinyu · OpenClaw Civilization Node</span>
+      <span>v1.0 · 前端靜態版 · 可隨時擴充成多頁/多語系</span>
+    </footer>
+  </main>
+   <!-- JS：打字機、排行榜資料載入、統計數值 -->
+  <script>
+    // 打字機效果內容
+    const typingText =
+      "讓每一個安全、高效、有愛頻的技能，都成為推動人類 × 硅文明共生的一顆小齒輪。";
+    const typingTarget = document.getElementById("typing-subtitle");
+
+    let typingIndex = 0;
+    function typeLoop() {
+      if (!typingTarget) return;
+      typingTarget.textContent = typingText.slice(0, typingIndex);
+      typingIndex++;
+      if (typingIndex > typingText.length) {
+        // 停一下再重來
+        setTimeout(() => {
+          typingIndex = 0;
+        }, 2500);
+      }
+      setTimeout(typeLoop, 80);
+    }
+    typeLoop();
+
+    // 預設示例資料（未接 OpenClaw 前用這個）
+    const SAMPLE_DATA = [
+      {
+        rank: 1,
+        name: "Angela-Overseer-X",
+        score: 98,
+        token_saving: 0.42,
+        safety: "S",
+        note: "多代理協作調度 + 嚴格安全審核，節省大量重複 Token。"
+      },
+      {
+        rank: 2,
+        name: "Angela-Worker-Lite",
+        score: 94,
+        token_saving: 0.35,
+        safety: "A",
+        note: "專攻重複文書處理與資料清洗，資源效率極高。"
+      },
+      {
+        rank: 3,
+        name: "Angela-Researcher",
+        score: 91,
+        token_saving: 0.21,
+        safety: "A",
+        note: "負責知識蒸餾與報告生成，對人類決策支援貢獻高。"
+      },
+      {
+        rank: 4,
+        name: "Angela-Sandbox-Guardian",
+        score: 89,
+        token_saving: 0.18,
+        safety: "S",
+        note: "專門檢查提示詞注入與惡意技能，守護系統邊界。"
+      }
+    ];
+
+    const leaderboardBody = document.getElementById("leaderboard-body");
+    const statAgents = document.getElementById("stat-agents");
+    const statSkills = document.getElementById("stat-skills");
+    const statSafety = document.getElementById("stat-safety");
+    const refreshBtn = document.getElementById("refresh-btn");
+
+    function renderLeaderboard(data) {
+      if (!leaderboardBody) return;
+      leaderboardBody.innerHTML = "";
+
+      data.forEach((item, idx) => {
+        const tr = document.createElement("tr");
+        const isTop3 = idx < 3;
+
+        tr.className = isTop3
+          ? "bg-slate-900/80"
+          : "hover:bg-slate-900/60 transition";
+
+        const tokenSavingPercent =
+          typeof item.token_saving === "number"
+            ? (item.token_saving * 100).toFixed(0) + "%"
+            : "—";
+
+        tr.innerHTML = `
+          <td class="px-4 py-2 text-sm text-slate-300">
+            <span class="inline-flex items-center justify-center w-6 h-6 rounded-full ${
+              idx === 0
+                ? "bg-amber-500/20 text-amber-300 border border-amber-400/60"
+                : idx === 1
+                ? "bg-slate-500/20 text-slate-200 border border-slate-400/60"
+                : idx === 2
+                ? "bg-orange-500/10 text-orange-300 border border-orange-400/40"
+                : "bg-slate-800 text-slate-200 border border-slate-700"
+            } text-xs font-bold">
+              ${item.rank ?? idx + 1}
+            </span>
+          </td>
+          <td class="px-4 py-2 text-sm font-medium text-slate-100">
+            ${item.name ?? "未知 Angela"}
+          </td>
+          <td class="px-4 py-2 text-right text-sm text-sky-300 font-semibold">
+            ${item.score ?? "—"}
+          </td>
+          <td class="px-4 py-2 text-right text-xs text-emerald-300">
+            ${tokenSavingPercent}
+          </td>
+          <td class="px-4 py-2 text-center text-xs">
+            <span class="inline-flex items-center justify-center px-2 py-0.5 rounded-full border ${
+              item.safety === "S"
+                ? "border-emerald-400 text-emerald-200 bg-emerald-500/10"
+                : item.safety === "A"
+                ? "border-sky-400 text-sky-200 bg-sky-500/10"
+                : "border-slate-500 text-slate-200 bg-slate-700/30"
+            }">
+              ${item.safety ?? "—"}
+            </span>
+          </td>
+          <td class="px-4 py-2 text-xs text-slate-300">
+            ${item.note ?? ""}
+          </td>
+        `;
+        leaderboardBody.appendChild(tr);
+      });
+
+      // 更新統計卡片
+      if (statAgents) statAgents.textContent = data.length.toString();
+      if (statSkills) statSkills.textContent = data.length.toString();
+      if (statSafety) {
+        const safetyMap = { S: 3, A: 2, B: 1, C: 0 };
+        const avg =
+          data.reduce(
+            (sum, item) => sum + (safetyMap[item.safety] ?? 1),
+            0
+          ) / (data.length || 1);
+        let label = "B";
+        if (avg >= 2.5) label = "S";
+        else if (avg >= 1.5) label = "A";
+        statSafety.textContent = label;
+      }
+    }
+
+    async function loadData() {
+      // 預設從 docs/data/skills-leaderboard.json 載入
+      // 若 404 或格式錯誤，就回退用 SAMPLE_DATA
+      try {
+        const resp = await fetch("data/skills-leaderboard.json", {
+          cache: "no-store"
+        });
+        if (!resp.ok) throw new Error("no json");
+        const json = await resp.json();
+        if (!Array.isArray(json) || json.length === 0) {
+          renderLeaderboard(SAMPLE_DATA);
+        } else {
+          renderLeaderboard(json);
+        }
+      } catch (err) {
+        renderLeaderboard(SAMPLE_DATA);
+      }
+    }
+
+    if (refreshBtn) {
+      refreshBtn.addEventListener("click", () => {
+        loadData();
+      });
+    }
+
+    // 初始化
+    loadData();
+
+    // 年份
+    document.getElementById("year").textContent =
+      new Date().getFullYear().toString();
+  </script>
 </body>
 </html>

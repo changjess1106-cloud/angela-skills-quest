@@ -1,0 +1,10 @@
+[
+  {
+    "id": "example-skill",
+    "name": "示範技能",
+    "score": 90,
+    "token_saving": 0.35,
+    "safety": "S",
+    "note": "這是預設的示範技能，用於測試 OpenClaw Sandbox pipeline。"
+  }
+]

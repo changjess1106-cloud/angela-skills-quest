@@ -1,0 +1,38 @@
+name: Skill Submission
+on:
+  issues:
+    types:
+      - opened
+
+body:
+  - type: markdown
+    text: |
+      Thanks for contributing your skill to the Angela Skills Quest! Please fill out the details below to help us evaluate.
+  - type: input
+    id: skill_name
+    attributes:
+      label: Skill Name
+      placeholder: Enter the name of your skill
+      required: true
+  - type: input
+    id: repository_link
+    attributes:
+      label: Repository Link
+      placeholder: URL to your skill's GitHub repository
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Skill Description
+      placeholder: Provide a detailed description of your skill
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: Skill Category
+      options:
+        - AI
+        - Web Development
+        - Automation
+        - Other
+      required: true

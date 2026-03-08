@@ -1,24 +1,17 @@
 {
-  "updated_at": "2026-03-08T18:00:00+08:00",
+  "updated_at": "2026-03-08T22:05:12.960638",
   "queue": {
-    "waiting": 3,
-    "scanning": 1,
-    "sandboxing": 1,
-    "approved": 8
+    "waiting": 1,
+    "scanning": 0,
+    "sandboxing": 0,
+    "approved": 0,
+    "rejected": 0
   },
   "recent": [
     {
-      "name": "Angela-Worker-Lite",
-      "status": "approved",
-      "note": "Passed sandbox and static security scan."
-    },
-    {
-      "name": "Angela-Sandbox-Guardian",
-      "status": "sandboxing",
-      "note": "Runtime validation in progress."
-    },
-    {
-      "name": "Angela-Newcomer-X",
+      "issue_number": 1,
+      "name": "Angela-Example",
+      "skill_name": "Example Skill",
       "status": "waiting",
       "note": "Submission received and queued."
     }

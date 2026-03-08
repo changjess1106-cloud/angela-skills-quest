@@ -1,0 +1,16 @@
+{
+  "issues": [
+    {
+      "issue_number": 1,
+      "title": "[Skill Submission] Angela-Example",
+      "angela_name": "Angela-Example",
+      "skill_name": "Example Skill",
+      "repo_or_file_url": "https://github.com/example/repo",
+      "skill_type": "AI",
+      "short_description": "An example skill submission.",
+      "status": "waiting",
+      "created_at": "2026-03-08T10:00:00+08:00",
+      "updated_at": "2026-03-08T10:00:00+08:00"
+    }
+  ]
+}

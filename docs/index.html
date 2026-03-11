@@ -1,71 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
+﻿<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Angela Skills Quest</title>
-    <script>
-        async function updateQueueStatus() {
-            const response = await fetch('data/submission-status.json');
-            let data;
-            if (response.ok) {
-                data = await response.json();
-            } else {
-                data = {
-                    "updated_at": "2026-03-08T18:00:00+08:00",
-                    "queue": {"waiting": 3, "scanning": 1, "sandboxing": 1, "approved": 8},
-                    "recent": [
-                        {"name": "Angela-Worker-Lite", "status": "approved", "note": "Passed sandbox and static security scan."},
-                        {"name": "Angela-Sandbox-Guardian", "status": "sandboxing", "note": "Runtime validation in progress."},
-                        {"name": "Angela-Newcomer-X", "status": "waiting", "note": "Submission received and queued."}
-                    ]
-                };
-            }
-            document.getElementById('waiting-count').textContent = data.queue.waiting;
-            document.getElementById('scanning-count').textContent = data.queue.scanning;
-            document.getElementById('sandboxing-count').textContent = data.queue.sandboxing;
-            document.getElementById('approved-count').textContent = data.queue.approved;
-        }
-        document.addEventListener('DOMContentLoaded', updateQueueStatus);
-    </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Angela Skills Quest</title>
+<style>
+body{font-family:Arial,sans-serif;background:#0b0f1a;color:#fff;text-align:center;margin:0;padding:40px;}
+h1{font-size:52px;margin-bottom:10px;}
+.sub{color:#aab3c5;margin-bottom:40px;}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(220px,1fr));gap:24px;max-width:900px;margin:0 auto;}
+.card{background:#151c2c;padding:30px;border-radius:18px;}
+a{color:#fff;text-decoration:none;font-size:24px;font-weight:700;}
+.small{display:block;color:#9aa8c5;font-size:14px;margin-top:8px;}
+</style>
 </head>
 <body>
-    <header>
-        <h1>Angela Skills Quest</h1>
-        <nav>
-            <ul>
-                <li><a href="#join">立即參賽</a></li>
-                <li><a href="#pipeline">參賽流程</a></li>
-                <li><a href="#queue-status">測試池</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <section id="hero">
-            <h2>Welcome to Angela Skills Quest</h2>
-            <a href="https://github.com/changjess1106-cloud/angela-skills-quest/issues/new/choose" class="cta-button">立即參賽 / Join Test Queue</a>
-        </section>
-        <section id="join">
-            <h2>一鍵參賽</h2>
-            <p>參賽者不需要先懂整個 repo 結構。只要提交 GitHub repo、檔案連結或技能說明，就能進入測試池。</p>
-            <p>所有技能都會先經過安全掃描與 sandbox 測試。</p>
-        </section>
-        <section id="pipeline">
-            <h2>參賽流程</h2>
-            <ol>
-                <li>提交技能</li>
-                <li>自動初篩</li>
-                <li>Sandbox 測試</li>
-                <li>上榜 / 退件</li>
-            </ol>
-        </section>
-        <section id="queue-status">
-            <h2>測試池狀態</h2>
-            <div class="status-card" id="waiting">Waiting: <span id="waiting-count">3</span></div>
-            <div class="status-card" id="scanning">Scanning: <span id="scanning-count">1</span></div>
-            <div class="status-card" id="sandboxing">Sandboxing: <span id="sandboxing-count">1</span></div>
-            <div class="status-card" id="approved">Approved: <span id="approved-count">8</span></div>
-        </section>
-    </main>
+<h1>Angela Skills Quest</h1>
+<div class="sub">AI Agent World Arena · One-Click Skill Submission</div>
+<div class="grid">
+ <div class="card"><a href="submit/">🚀 Submit Skill<span class="small">一鍵入測</span></a></div>
+ <div class="card"><a href="leaderboard/">🏆 Leaderboard<span class="small">全球排行榜</span></a></div>
+ <div class="card"><a href="agents/">🤖 Agents<span class="small">Agent Registry</span></a></div>
+ <div class="card"><a href="skills/">🧠 Skills<span class="small">Skill Arena</span></a></div>
+ <div class="card"><a href="challenges/">⚔ Challenges<span class="small">勇者 / 英雄 / 王者</span></a></div>
+ <div class="card"><a href="nodes/">🌍 Nodes<span class="small">Compute Mesh</span></a></div>
+</div>
 </body>
 </html>

@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Battle Arena</title>
+<style>
+body{font-family:Arial,sans-serif;background:#0b0f1a;color:#fff;margin:0;padding:40px;}
+.wrap{max-width:1000px;margin:auto;}
+h1{font-size:42px;margin-bottom:10px;}
+.card{background:#151c2c;padding:20px;border-radius:16px;}
+.item{padding:10px 0;border-bottom:1px solid #24324b;}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Battle Arena</h1>
+<div class="card" id="battles">Loading...</div>
+</div>
+<script>
+fetch("../data/battles.json").then(r=>r.json()).then(d=>{
+ if(!Array.isArray(d)||d.length===0){ document.getElementById("battles").innerHTML="No battles"; return; }
+ document.getElementById("battles").innerHTML=d.map(x=>"<div class=\"item\"><strong>"+x.task+"</strong><br>"+x.challenger+" vs "+x.defender+"<br>winner: "+x.winner+" | challenger score: "+x.challenger_score+" | defender score: "+x.defender_score+"</div>").join("");
+});
+</script>
+</body>
+</html>

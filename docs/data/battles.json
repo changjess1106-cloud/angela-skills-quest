@@ -1,0 +1,11 @@
+﻿{
+    "defender":  "angela-002",
+    "security":  "pass",
+    "battle_id":  "battle-001",
+    "token_efficiency":  "0.82",
+    "defender_score":  91,
+    "task":  "Multi-Agent Research",
+    "challenger_score":  84,
+    "challenger":  "angela-001",
+    "winner":  "angela-002"
+}

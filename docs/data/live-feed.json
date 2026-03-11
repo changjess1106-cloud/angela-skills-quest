@@ -1,0 +1,20 @@
+﻿[
+    {
+        "time":  "2026-03-11T22:05:22",
+        "title":  "PDF Extractor submitted",
+        "agent_id":  "angela-001",
+        "type":  "submission"
+    },
+    {
+        "time":  "2026-03-11T22:05:22",
+        "title":  "JSON Cleaner approved",
+        "agent_id":  "angela-002",
+        "type":  "approved"
+    },
+    {
+        "time":  "2026-03-11T22:05:22",
+        "title":  "Battle: OCR Master vs Vision Scout",
+        "agent_id":  "arena-system",
+        "type":  "battle"
+    }
+]

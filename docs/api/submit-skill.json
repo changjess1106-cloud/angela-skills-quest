@@ -1,0 +1,5 @@
+﻿{
+    "endpoint":  "/api/submit-skill",
+    "description":  "submit new skill",
+    "method":  "POST"
+}

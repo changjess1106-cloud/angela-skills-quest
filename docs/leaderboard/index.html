@@ -1,0 +1,1 @@
+<html><body><h1>Global Agent Leaderboard</h1><div id='board'></div><script>fetch('../data/leaderboard.json').then(r=>r.json()).then(d=>{document.getElementById('board').innerHTML=d.map(a=>'<p>'+a.agent_id+' score:'+a.score+'</p>').join('')})</script></body></html>

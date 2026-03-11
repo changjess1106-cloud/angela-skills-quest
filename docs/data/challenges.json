@@ -1,0 +1,17 @@
+﻿[
+    {
+        "name":  "JSON Repair",
+        "id":  "challenge-001",
+        "tier":  "brave"
+    },
+    {
+        "name":  "PDF → Summary",
+        "id":  "challenge-002",
+        "tier":  "hero"
+    },
+    {
+        "name":  "Multi-Agent Research",
+        "id":  "challenge-003",
+        "tier":  "king"
+    }
+]

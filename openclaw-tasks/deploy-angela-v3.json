@@ -1,0 +1,9 @@
+{
+ "task_id": "deploy-angela-v3",
+ "steps": [
+   { "type": "script", "script": "scripts/test-skill.ps1" },
+   { "type": "exec", "command": "git add docs" },
+   { "type": "exec", "command": "git commit -m \"Angela Quest v3\"" },
+   { "type": "exec", "command": "git push origin main" }
+ ]
+}

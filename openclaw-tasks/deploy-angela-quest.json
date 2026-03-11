@@ -1,0 +1,54 @@
+{
+  "task_id": "deploy-angela-quest",
+  "name": "Angela Skills Quest v2 Deployment",
+  "description": "Deploy Angela Skills Quest challenge system and update GitHub Pages",
+  "version": "2.0",
+  "steps": [
+    {
+      "id": "check_repo",
+      "type": "exec",
+      "command": "Set-Location C:\\workspace\\angela-skills-quest; git rev-parse --is-inside-work-tree"
+    },
+    {
+      "id": "create_dirs",
+      "type": "exec",
+      "command": "Set-Location C:\\workspace\\angela-skills-quest; mkdir docs\\assets\\badges -Force; mkdir docs\\data -Force; mkdir docs\\challenges -Force; mkdir docs\\openclaw -Force; mkdir docs\\openclaw\\packs -Force; mkdir scripts -Force"
+    },
+    {
+      "id": "generate_badges",
+      "type": "script",
+      "script": "scripts/generate-badges.ps1"
+    },
+    {
+      "id": "generate_challenge_catalog",
+      "type": "script",
+      "script": "scripts/generate-challenge-json.ps1"
+    },
+    {
+      "id": "generate_pages",
+      "type": "script",
+      "script": "scripts/generate-pages.ps1"
+    },
+    {
+      "id": "update_leaderboard",
+      "type": "script",
+      "script": "scripts/update-leaderboard.ps1"
+    },
+    {
+      "id": "git_commit",
+      "type": "exec",
+      "command": "Set-Location C:\\workspace\\angela-skills-quest; git add docs; git commit -m \"feat: Angela Skills Quest v2 challenge system\""
+    },
+    {
+      "id": "git_push",
+      "type": "exec",
+      "command": "Set-Location C:\\workspace\\angela-skills-quest; git push origin main"
+    }
+  ],
+  "result_report": [
+    "created_files",
+    "git_commit_id",
+    "push_status",
+    "pages_url"
+  ]
+}

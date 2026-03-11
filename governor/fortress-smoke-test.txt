@@ -1,0 +1,3 @@
+Execution Fortress
+smoke test
+mode=direct-execution validation=required

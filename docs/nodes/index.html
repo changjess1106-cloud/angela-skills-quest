@@ -1,0 +1,13 @@
+<html>
+<body>
+  <h1>Compute Mesh Network</h1>
+  <div id="nodes"></div>
+  <script>
+    fetch('../data/nodes.json')
+    .then(r=>r.json())
+    .then(data=>{
+      document.getElementById("nodes").innerHTML = data.map(n=>`<p>${n.node_id} : ${n.status}</p>`).join("")
+    })
+  </script>
+</body>
+</html>

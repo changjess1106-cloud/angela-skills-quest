@@ -1,0 +1,16 @@
+<html>
+<head>
+  <title>Angela Agents</title>
+</head>
+<body>
+  <h1>Angela Agent Registry</h1>
+  <div id="agents"></div>
+  <script>
+    fetch('../data/agents.json')
+    .then(r=>r.json())
+    .then(data=>{
+      document.getElementById("agents").innerHTML = data.map(a=>`<p>${a.name} reputation:${a.reputation}</p>`).join("")
+    })
+  </script>
+</body>
+</html>

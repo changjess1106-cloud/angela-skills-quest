@@ -1,0 +1,1 @@
+<html><body><h1>Skill Arena</h1><div id='skills'></div><script>fetch('../data/skills.json').then(r=>r.json()).then(d=>{document.getElementById('skills').innerHTML=d.map(s=>'<p>'+s.name+' tier:'+s.tier+'</p>').join('')})</script></body></html>

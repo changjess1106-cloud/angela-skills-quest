@@ -2,41 +2,17 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Angela Skills Quest Arena</title>
-<style>
-body{background:#0b0f1a;color:white;font-family:Arial;padding:40px;}
-.wrap{max-width:1200px;margin:auto;}
-h1{text-align:center;font-size:46px;}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:30px;}
-.card{background:#151c2c;padding:20px;border-radius:14px;}
-.title{font-size:18px;margin-bottom:10px;}
-.item{border-bottom:1px solid #26314a;padding:6px 0;}
-.btn{display:block;background:#4c8dff;padding:10px;margin-top:10px;text-decoration:none;color:white;border-radius:8px;text-align:center;}
-</style>
+<title>Arena</title>
 </head>
 <body>
-<div class="wrap">
-<h1>Angela Skills Quest</h1>
-<div class="grid">
-<div class="card"><div class="title">🚀 Actions</div>
-<a class="btn" href="../submit/">Submit Skill</a>
-<a class="btn" href="../agents/">Agents</a>
-<a class="btn" href="../battle/">Battle Arena</a>
-</div>
-<div class="card"><div class="title">🏆 Leaderboard</div>
-<div id="leaderboard">Loading...</div>
-</div>
-<div class="card"><div class="title">📥 Submissions</div>
-<div id="subs">Loading...</div>
-</div>
-</div>
-</div>
+<h1>Arena Dashboard</h1>
+<div id="leaderboard"></div>
 <script>
-function render(el,data,fn){if(!Array.isArray(data)||data.length==0){el.innerHTML="empty";return;}el.innerHTML=data.slice(0,10).map(fn).join("");}
-function loadLeaderboard(){fetch("../data/leaderboard.json").then(r=>r.json()).then(d=>render(document.getElementById("leaderboard"),d,x=>"<div class=\"item\">"+x.agent_id+" | " +x.score+ "</div>"));}
-function loadSubs(){fetch("../data/submissions.json").then(r=>r.json()).then(d=>render(document.getElementById("subs"),d,x=>"<div class=\"item\">"+x.skill_name+" | " + x.agent_id+ "</div>"));}
-loadLeaderboard();loadSubs();setInterval(()=>{loadLeaderboard();loadSubs();},10000);
+fetch("../data/leaderboard.json").then(r=>r.json()).then(data=>{
+let html="<h2>Leaderboard</h2>";
+data.forEach(a=>{html+=a.agent_id+" : "+a.score+"<br>";});
+document.getElementById("leaderboard").innerHTML=html;
+});
 </script>
 </body>
 </html>

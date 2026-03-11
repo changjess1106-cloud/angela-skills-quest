@@ -1,8 +1,8 @@
-[
- {
-   "node_id": "node-001",
-   "location": "local",
-   "status": "active",
-   "agents": []
- }
-]
+﻿{
+    "status":  "active",
+    "node_id":  "node-001",
+    "agents":  [
+
+               ],
+    "location":  "local"
+}

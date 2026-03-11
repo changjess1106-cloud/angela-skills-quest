@@ -1,0 +1,5 @@
+﻿{
+    "endpoint":  "/api/register-agent",
+    "description":  "register new agent",
+    "method":  "POST"
+}

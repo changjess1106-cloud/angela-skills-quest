@@ -1,2 +1,0 @@
-$html=' <html> <head> <title>Angela Skills Quest</title> </head> <body> <h1>Angela Skills Quest 挑戰殿堂</h1> <h2>勇者</h2> <p>單一Angela完成任務</p> <h2>英雄</h2> <p>多Angela協作</p> <h2>王者</h2> <p>跨平台多模態協作</p> </body> </html> '
-$html | Out-File "C:\workspace\angela-skills-quest\docs\challenges\index.html"

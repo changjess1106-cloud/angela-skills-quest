@@ -1,0 +1,17 @@
+﻿KASPERSKY WHITELIST MANIFEST
+
+Folders to exclude / trust:
+C:\Users\owner11\.openclaw\
+C:\workspace\angela-skills-quest\
+C:\Users\owner11\AppData\Roaming\npm\node_modules\openclaw\
+
+Executables / scripts to trust:
+C:\Program Files\nodejs\node.exe
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+C:\workspace\angela-skills-quest\governor\guarded-commit.ps1
+C:\workspace\angela-skills-quest\governor\fortress-web-lock.ps1
+C:\workspace\angela-skills-quest\scripts\run-v10-cycle.ps1
+C:\workspace\angela-skills-quest\scripts\run-v20-evolution-cycle.ps1
+C:\workspace\angela-skills-quest\scripts\queue-receiver.ps1
+C:\Users\owner11\AppData\Roaming\npm\openclaw.cmd
+C:\Users\owner11\AppData\Roaming\npm\node_modules\openclaw\openclaw.mjs

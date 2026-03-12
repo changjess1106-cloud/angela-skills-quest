@@ -1,0 +1,22 @@
+﻿KASPERSKY MANUAL WHITELIST STEPS
+
+1. Open Kaspersky Settings.
+2. Go to General settings -> Exclusions and types of detected objects.
+3. Add scan exclusions for these folders:
+ C:\Users\owner11\.openclaw\
+ C:\workspace\angela-skills-quest\
+ C:\Users\owner11\AppData\Roaming\npm\node_modules\openclaw\
+4. Add trusted applications for:
+ node.exe
+ powershell.exe
+ openclaw.cmd
+ openclaw.mjs
+5. If available, enable options similar to:
+ Do not monitor application activity
+ Do not monitor child application activity
+ Do not inherit restrictions from parent process
+6. Re-open OpenClaw and test:
+ openclaw doctor
+ openclaw health
+ openclaw status
+7. If local exclusions are blocked by policy, use administrator-managed Kaspersky policy instead.

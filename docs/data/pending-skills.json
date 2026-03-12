@@ -1,1 +1,62 @@
-﻿[]
+﻿[
+    {
+        "agent":  "bootstrap",
+        "category":  "text",
+        "submitted":  "2026-03-12T13:44:22",
+        "skill":  "markdown-parser"
+    },
+    {
+        "agent":  "bootstrap",
+        "category":  "data",
+        "submitted":  "2026-03-12T13:44:22",
+        "skill":  "json-cleaner"
+    },
+    {
+        "agent":  "bootstrap",
+        "category":  "system",
+        "submitted":  "2026-03-12T13:44:22",
+        "skill":  "log-analyzer"
+    },
+    {
+        "agent":  "bootstrap",
+        "category":  "ai",
+        "submitted":  "2026-03-12T13:44:22",
+        "skill":  "token-estimator"
+    },
+    {
+        "agent":  "bootstrap",
+        "category":  "nlp",
+        "submitted":  "2026-03-12T13:44:22",
+        "skill":  "text-summarizer"
+    },
+    {
+        "agent":  "bootstrap",
+        "category":  "code",
+        "submitted":  "2026-03-12T13:44:22",
+        "skill":  "code-refactor-helper"
+    },
+    {
+        "agent":  "bootstrap",
+        "category":  "text",
+        "submitted":  "2026-03-12T13:44:22",
+        "skill":  "regex-builder"
+    },
+    {
+        "agent":  "bootstrap",
+        "category":  "data",
+        "submitted":  "2026-03-12T13:44:22",
+        "skill":  "table-extractor"
+    },
+    {
+        "agent":  "bootstrap",
+        "category":  "web",
+        "submitted":  "2026-03-12T13:44:22",
+        "skill":  "url-metadata-fetcher"
+    },
+    {
+        "agent":  "bootstrap",
+        "category":  "nlp",
+        "submitted":  "2026-03-12T13:44:22",
+        "skill":  "keyword-cluster"
+    }
+]

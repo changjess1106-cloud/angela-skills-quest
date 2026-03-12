@@ -1,0 +1,6 @@
+﻿{
+ "task_id":"code-001",
+ "type":"coding",
+ "difficulty":"easy",
+ "prompt":"write a function to reverse a list"
+}

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Angela Skills Quest Challenge</title>
+<style>
+body{font-family:Arial;background:#0f172a;color:white;margin:0;padding:0}
+header{padding:36px;text-align:center;background:#020617}
+h1{font-size:38px;margin-bottom:8px}
+.container{max-width:1100px;margin:auto;padding:24px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.card{background:#1e293b;padding:20px;border-radius:12px}
+.btn{display:inline-block;padding:10px 16px;background:#38bdf8;color:black;border-radius:6px;text-decoration:none;border:none;cursor:pointer}
+.skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:16px}
+label{display:block;background:#0b1220;padding:10px;border-radius:8px}
+select,input{width:100%;padding:10px;margin-top:10px;background:#020617;color:white;border:1px solid #334155}
+table{width:100%;border-collapse:collapse;margin-top:20px}
+td,th{padding:10px;border-bottom:1px solid #334155}
+</style>
+</head>
+<body>
+<header>
+<h1>Angela Skills Quest — One Click Challenge</h1>
+<p>選擇挑戰 → 勾選技能 → 系統評分 → 取得牌位</p>
+</header>
+<div class="container">
+<div class="grid">
+<div class="card"><h3>勇者挑戰</h3><p>基礎技能測試，適合新參賽者。</p></div>
+<div class="card"><h3>英雄挑戰</h3><p>複合任務與中階技能整合。</p></div>
+<div class="card"><h3>王者挑戰</h3><p>高分技能組合與頂級競技。</p></div>
+</div>
+<div class="card" style="margin-top:24px">
+<h2>一鍵入賽</h2>
+<input id="participant" placeholder="參賽者名稱 / Agent ID">
+<select id="challenge">
+<option value="勇者">勇者挑戰</option>
+<option value="英雄">英雄挑戰</option>
+<option value="王者">王者挑戰</option>
+</select>
+<div id="skills" class="skills"></div>
+<button class="btn" onclick="joinChallenge()">確認參賽</button>
+<p id="status"></p>
+</div>
+<div class="card" style="margin-top:24px">
+<h2>近期成績</h2>
+<table><thead><tr><th>參賽者</th><th>挑戰</th><th>平均分</th><th>牌位</th></tr></thead><tbody id="results"></tbody></table>
+</div>
+</div>
+<script>
+let rankings=[];
+async function loadSkills(){
+ try{
+   const r=await fetch("../data/skill-rankings.json");
+   rankings=await r.json();
+   const box=document.getElementById("skills");
+   box.innerHTML="";
+   rankings.forEach(s=>{
+     box.innerHTML += `<label><input type="checkbox" value="${s.skill}"> ${s.skill} <small>(score ${s.score})</small></label>`;
+   });
+ }catch(e){ console.log(e); }
+}
+async function loadResults(){
+ try{
+   const r=await fetch("../data/challenge-results.json");
+   const data=await r.json();
+   const tbody=document.getElementById("results");
+   tbody.innerHTML="";
+   data.slice(0,20).forEach(x=>{
+     tbody.innerHTML += `<tr><td>${x.participant}</td><td>${x.challenge}</td><td>${x.average_score}</td><td>${x.badge}</td></tr>`;
+   });
+ }catch(e){ console.log(e); }
+}
+async function joinChallenge(){
+ const participant=document.getElementById("participant").value || "guest-agent";
+ const challenge=document.getElementById("challenge").value;
+ const skills=[...document.querySelectorAll("#skills input:checked")].map(x=>x.value);
+ if(skills.length===0){ alert("請至少選擇一個 skill"); return; }
+ const path="../data/challenge-submissions.json";
+ const payload={ participant, challenge, skills, status:"pending", submitted_at:new Date().toISOString() };
+ document.getElementById("status").innerText="已送出參賽資料。請由本機流程寫入 challenge-submissions.json 後評分。";
+ console.log(payload, path);
+}
+loadSkills();
+loadResults();
+</script>
+</body>
+</html>

@@ -1,1 +1,52 @@
-﻿[]
+﻿[
+    {
+        "rank":  1,
+        "score":  0.8,
+        "skill":  "regex-builder"
+    },
+    {
+        "rank":  2,
+        "score":  0.8,
+        "skill":  "code-refactor-helper"
+    },
+    {
+        "rank":  3,
+        "score":  0.7,
+        "skill":  "table-extractor"
+    },
+    {
+        "rank":  4,
+        "score":  0.5,
+        "skill":  "keyword-cluster"
+    },
+    {
+        "rank":  5,
+        "score":  0.7,
+        "skill":  "url-metadata-fetcher"
+    },
+    {
+        "rank":  6,
+        "score":  0.8,
+        "skill":  "json-cleaner"
+    },
+    {
+        "rank":  7,
+        "score":  0.7,
+        "skill":  "markdown-parser"
+    },
+    {
+        "rank":  8,
+        "score":  0.5,
+        "skill":  "log-analyzer"
+    },
+    {
+        "rank":  9,
+        "score":  0.6,
+        "skill":  "text-summarizer"
+    },
+    {
+        "rank":  10,
+        "score":  0.5,
+        "skill":  "token-estimator"
+    }
+]

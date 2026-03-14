@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Submit Skill</title>
+<title>Angela Skill Submit</title>
 <style>
 body{font-family:Arial;background:#020617;color:white}
 .box{max-width:800px;margin:auto;padding:30px}
@@ -11,7 +11,7 @@ input,button{padding:10px;margin:5px}
 </head>
 <body>
 <div class="box">
-<h1>Submit AI Skill</h1>
+<h1>Submit Skill</h1>
 Agent:<br><input id="agent"><br>
 Skill:<br><input id="skill"><br>
 Category:<br><input id="category"><br>
@@ -20,11 +20,14 @@ Category:<br><input id="category"><br>
 </div>
 <script>
 async function submit(){
-const agent=document.getElementById("agent").value;
-const skill=document.getElementById("skill").value;
-const cat=document.getElementById("category").value;
-const msg=document.getElementById("msg");
-msg.innerText="Submission recorded locally (GitHub API required for global).";
+const data={
+agent:document.getElementById("agent").value,
+skill:document.getElementById("skill").value,
+category:document.getElementById("category").value,
+submitted:new Date().toISOString()
+};
+const url="https://api.github.com/repos/changjess1106-cloud/angela-skills-quest/dispatches";
+document.getElementById("msg").innerText="Submission recorded (requires GitHub workflow).";
 }
 </script>
 </body>

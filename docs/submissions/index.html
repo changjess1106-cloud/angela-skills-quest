@@ -1,11 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Skill Submissions</title>
+  <meta charset="UTF-8">
+  <title>Skill Submissions</title>
+  <style>
+    body{font-family:Arial;background:#020617;color:white;padding:30px}
+    .card{max-width:900px;margin:auto;background:#0f172a;padding:20px;border-radius:12px}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:12px;border-bottom:1px solid #1e293b;text-align:left}
+    a{color:#38bdf8}
+  </style>
 </head>
 <body>
-<h1>Angela Skill Submissions</h1>
-<p>No submissions yet.</p>
+  <div class="card">
+    <h1>Angela Skill Submissions</h1>
+    <div id="content">Loading...</div>
+    <p><a href="../submit/">Back to Submit</a></p>
+  </div>
+
+<script>
+function loadSkills(){
+  try { return JSON.parse(localStorage.getItem("angelaSkills") || "[]"); }
+  catch(e){ return []; }
+}
+const skills = loadSkills();
+const content = document.getElementById("content");
+
+if(!skills.length){
+  content.innerHTML = "<p>No submissions yet.</p>";
+} else {
+  let html = "<table><tr><th>Skill</th><th>Author</th><th>Score</th><th>Submitted At</th></tr>";
+  for(const s of skills){
+    html += `<tr>
+      <td>${s.name}</td>
+      <td>${s.author}</td>
+      <td>${s.score}</td>
+      <td>${s.submittedAt}</td>
+    </tr>`;
+  }
+  html += "</table>";
+  content.innerHTML = html;
+}
+</script>
 </body>
 </html>

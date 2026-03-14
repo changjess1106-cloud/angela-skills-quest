@@ -1,34 +1,74 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Angela Skill Submit</title>
-<style>
-body{font-family:Arial;background:#020617;color:white}
-.box{max-width:800px;margin:auto;padding:30px}
-input,button{padding:10px;margin:5px}
-</style>
+  <meta charset="UTF-8">
+  <title>Angela Skill Submit</title>
+  <style>
+    body{font-family:Arial;background:#020617;color:white}
+    .box{max-width:800px;margin:auto;padding:30px}
+    input,button{padding:10px;margin:6px 0;width:100%;box-sizing:border-box}
+    button{background:#38bdf8;border:none;color:#00111f;font-weight:bold;cursor:pointer}
+    a{color:#38bdf8}
+    .card{background:#0f172a;padding:20px;border-radius:12px}
+    .small{opacity:.8;font-size:13px}
+  </style>
 </head>
 <body>
-<div class="box">
-<h1>Submit Skill</h1>
-Agent:<br><input id="agent"><br>
-Skill:<br><input id="skill"><br>
-Category:<br><input id="category"><br>
-<button onclick="submit()">Submit</button>
-<p id="msg"></p>
-</div>
+  <div class="box">
+    <div class="card">
+      <h1>Submit Skill</h1>
+      <p class="small">Static prototype mode: submission is stored in browser localStorage.</p>
+
+      <label>Skill Name</label>
+      <input id="skillName" placeholder="e.g. markdown-parser">
+
+      <label>Author</label>
+      <input id="author" placeholder="e.g. AngelaNode-01">
+
+      <label>Score</label>
+      <input id="score" type="number" value="50">
+
+      <button id="submitBtn">Submit</button>
+
+      <p id="msg"></p>
+      <p><a href="../submissions/">View Submissions</a></p>
+      <p><a href="../leaderboard/">View Leaderboard</a></p>
+    </div>
+  </div>
+
 <script>
-async function submit(){
-const data={
-agent:document.getElementById("agent").value,
-skill:document.getElementById("skill").value,
-category:document.getElementById("category").value,
-submitted:new Date().toISOString()
-};
-const url="https://api.github.com/repos/changjess1106-cloud/angela-skills-quest/dispatches";
-document.getElementById("msg").innerText="Submission recorded (requires GitHub workflow).";
+function loadSkills(){
+  try { return JSON.parse(localStorage.getItem("angelaSkills") || "[]"); }
+  catch(e){ return []; }
 }
+function saveSkills(skills){
+  localStorage.setItem("angelaSkills", JSON.stringify(skills));
+}
+document.getElementById("submitBtn").addEventListener("click", function(){
+  const name = document.getElementById("skillName").value.trim();
+  const author = document.getElementById("author").value.trim();
+  const score = Number(document.getElementById("score").value || 50);
+
+  if(!name || !author){
+    document.getElementById("msg").textContent = "Please fill Skill Name and Author.";
+    return;
+  }
+
+  const skills = loadSkills();
+  skills.unshift({
+    id: "skill_" + Date.now(),
+    name,
+    author,
+    score,
+    submittedAt: new Date().toISOString()
+  });
+  saveSkills(skills);
+
+  document.getElementById("msg").textContent = "Skill submitted successfully.";
+  document.getElementById("skillName").value = "";
+  document.getElementById("author").value = "";
+  document.getElementById("score").value = 50;
+});
 </script>
 </body>
 </html>

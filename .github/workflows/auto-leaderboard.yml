@@ -1,0 +1,28 @@
+name: Auto Leaderboard
+
+on:
+ push:
+   paths:
+     - "docs/data/skill-rankings.json"
+
+jobs:
+ build:
+   runs-on: ubuntu-latest
+
+   steps:
+     - uses: actions/checkout@v4
+
+     - name: Generate leaderboard
+       run: |
+         node -e "const fs=require(\"fs\");
+         let r=JSON.parse(fs.readFileSync(\"docs/data/skill-rankings.json\"));
+         r=r.sort((a,b)=>b.score-a.score).slice(0,10);
+         fs.writeFileSync(\"docs/data/leaderboard.json\",JSON.stringify(r,null,2));"
+
+     - name: Commit update
+       run: |
+         git config user.name github-actions
+         git config user.email actions@github.com
+         git add docs/data/leaderboard.json
+         git commit -m "auto leaderboard update" || echo "no change"
+         git push

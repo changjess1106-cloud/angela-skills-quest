@@ -1,0 +1,52 @@
+﻿[
+    {
+        "success":  7,
+        "tests":  10,
+        "skill":  "markdown-parser"
+    },
+    {
+        "success":  8,
+        "tests":  10,
+        "skill":  "json-cleaner"
+    },
+    {
+        "success":  5,
+        "tests":  10,
+        "skill":  "log-analyzer"
+    },
+    {
+        "success":  5,
+        "tests":  10,
+        "skill":  "token-estimator"
+    },
+    {
+        "success":  6,
+        "tests":  10,
+        "skill":  "text-summarizer"
+    },
+    {
+        "success":  8,
+        "tests":  10,
+        "skill":  "code-refactor-helper"
+    },
+    {
+        "success":  8,
+        "tests":  10,
+        "skill":  "regex-builder"
+    },
+    {
+        "success":  7,
+        "tests":  10,
+        "skill":  "table-extractor"
+    },
+    {
+        "success":  7,
+        "tests":  10,
+        "skill":  "url-metadata-fetcher"
+    },
+    {
+        "success":  5,
+        "tests":  10,
+        "skill":  "keyword-cluster"
+    }
+]

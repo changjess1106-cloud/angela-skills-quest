@@ -33,9 +33,9 @@ foreach($s in $subs){
  }
  $avg=0
  if($scores.Count -gt 0){ $avg=[math]::Round((($scores|Measure-Object -Average).Average),2) }
- $badge="勇者"
- if($avg -ge 0.8 -and $scores.Count -ge 3){ $badge="王者" }
- elseif($avg -ge 0.65){ $badge="英雄" }
+ $badge="BRAVE"
+if($avg -ge 0.8 -and $scores.Count -ge 3){ $badge="KING" }
+elseif($avg -ge 0.65){ $badge="HERO" }
  $results += @{ participant=$s.participant; challenge=$s.challenge; skills=$chosen; average_score=$avg; badge=$badge; scored_at=(Get-Date).ToString("s") }
  $s.status="scored"
 }

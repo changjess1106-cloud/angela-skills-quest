@@ -1,46 +1,62 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
   <title>Angela Skills Leaderboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    body{font-family:Arial;background:#020617;color:white}
-    .box{max-width:900px;margin:auto;padding:30px}
+    body{font-family:Arial;background:#020617;color:white;margin:0}
+    .box{max-width:1000px;margin:auto;padding:30px}
     table{width:100%;border-collapse:collapse}
     td,th{padding:12px;border-bottom:1px solid #1e293b;text-align:left}
     a{color:#38bdf8}
+    .muted{opacity:.8}
+    .err{color:#f87171}
   </style>
 </head>
 <body>
   <div class="box">
     <h1>Top 10 AI Skills</h1>
-    <div id="board">Loading...</div>
+    <div id="board" class="muted">Loading...</div>
     <p><a href="../submit/">Submit Skill</a></p>
   </div>
 
-<script>
-function loadSkills(){
-  try { return JSON.parse(localStorage.getItem("angelaSkills") || "[]"); }
-  catch(e){ return []; }
-}
-const skills = loadSkills().sort((a,b) => (b.score||0) - (a.score||0)).slice(0,10);
-const board = document.getElementById("board");
+  <script type="module">
+    import { getSkills } from "../js/api.js";
 
-if(!skills.length){
-  board.innerHTML = "<p>No leaderboard data yet.</p>";
-} else {
-  let html = "<table><tr><th>Rank</th><th>Skill</th><th>Author</th><th>Score</th></tr>";
-  skills.forEach((s, i) => {
-    html += `<tr>
-      <td>${i+1}</td>
-      <td>${s.name}</td>
-      <td>${s.author}</td>
-      <td>${s.score}</td>
-    </tr>`;
-  });
-  html += "</table>";
-  board.innerHTML = html;
-}
-</script>
+    const board = document.getElementById("board");
+
+    async function load() {
+      try {
+        const skills = await getSkills();
+
+        if (!Array.isArray(skills) || !skills.length) {
+          board.innerHTML = "<p>No leaderboard data yet.</p>";
+          return;
+        }
+
+        const sorted = skills
+          .slice()
+          .sort((a,b) => Number(b.score || 0) - Number(a.score || 0))
+          .slice(0,10);
+
+        let html = "<table><tr><th>Rank</th><th>Skill</th><th>Author</th><th>Score</th></tr>";
+        sorted.forEach((s, i) => {
+          html += <tr>
+            <td>\</td>
+            <td>\</td>
+            <td>\</td>
+            <td>\</td>
+          </tr>;
+        });
+        html += "</table>";
+        board.innerHTML = html;
+      } catch (err) {
+        board.innerHTML = '<p class="err">Load failed: ' + err.message + '</p>';
+      }
+    }
+
+    load();
+  </script>
 </body>
 </html>

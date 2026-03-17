@@ -1,82 +1,82 @@
 ﻿[
     {
         "skill":  "regex-builder",
-        "allowed":  true,
+        "allowed":  false,
         "score":  0.8,
-        "pending":  true,
-        "audited_at":  "2026-03-17T17:14:02",
+        "pending":  false,
+        "audited_at":  "2026-03-17T17:44:01",
         "name_safe":  true
     },
     {
         "skill":  "code-refactor-helper",
-        "allowed":  true,
+        "allowed":  false,
         "score":  0.8,
-        "pending":  true,
-        "audited_at":  "2026-03-17T17:14:02",
+        "pending":  false,
+        "audited_at":  "2026-03-17T17:44:01",
         "name_safe":  true
     },
     {
         "skill":  "table-extractor",
-        "allowed":  true,
+        "allowed":  false,
         "score":  0.7,
-        "pending":  true,
-        "audited_at":  "2026-03-17T17:14:02",
+        "pending":  false,
+        "audited_at":  "2026-03-17T17:44:01",
         "name_safe":  true
     },
     {
         "skill":  "keyword-cluster",
         "allowed":  false,
         "score":  0.5,
-        "pending":  true,
-        "audited_at":  "2026-03-17T17:14:02",
+        "pending":  false,
+        "audited_at":  "2026-03-17T17:44:01",
         "name_safe":  true
     },
     {
         "skill":  "url-metadata-fetcher",
-        "allowed":  true,
+        "allowed":  false,
         "score":  0.7,
-        "pending":  true,
-        "audited_at":  "2026-03-17T17:14:02",
+        "pending":  false,
+        "audited_at":  "2026-03-17T17:44:01",
         "name_safe":  true
     },
     {
         "skill":  "json-cleaner",
-        "allowed":  true,
+        "allowed":  false,
         "score":  0.8,
-        "pending":  true,
-        "audited_at":  "2026-03-17T17:14:02",
+        "pending":  false,
+        "audited_at":  "2026-03-17T17:44:01",
         "name_safe":  true
     },
     {
         "skill":  "markdown-parser",
-        "allowed":  true,
+        "allowed":  false,
         "score":  0.7,
-        "pending":  true,
-        "audited_at":  "2026-03-17T17:14:02",
+        "pending":  false,
+        "audited_at":  "2026-03-17T17:44:01",
         "name_safe":  true
     },
     {
         "skill":  "log-analyzer",
         "allowed":  false,
         "score":  0.5,
-        "pending":  true,
-        "audited_at":  "2026-03-17T17:14:02",
+        "pending":  false,
+        "audited_at":  "2026-03-17T17:44:01",
         "name_safe":  true
     },
     {
         "skill":  "text-summarizer",
         "allowed":  false,
         "score":  0.6,
-        "pending":  true,
-        "audited_at":  "2026-03-17T17:14:02",
+        "pending":  false,
+        "audited_at":  "2026-03-17T17:44:01",
         "name_safe":  true
     },
     {
         "skill":  "token-estimator",
         "allowed":  false,
         "score":  0.5,
-        "pending":  true,
-        "audited_at":  "2026-03-17T17:14:02",
+        "pending":  false,
+        "audited_at":  "2026-03-17T17:44:01",
         "name_safe":  true
     }
 ]

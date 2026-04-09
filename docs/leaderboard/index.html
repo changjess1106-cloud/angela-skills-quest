@@ -1,17 +1,18 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Angela Skills Leaderboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    body{font-family:Arial;background:#020617;color:white;margin:0}
-    .box{max-width:1000px;margin:auto;padding:30px}
-    table{width:100%;border-collapse:collapse}
-    td,th{padding:12px;border-bottom:1px solid #1e293b;text-align:left}
-    a{color:#38bdf8}
-    .muted{opacity:.8}
-    .err{color:#f87171}
+    body { font-family: Arial, sans-serif; background: #020617; color: white; margin: 0; }
+    .box { max-width: 1000px; margin: auto; padding: 30px; }
+    table { width: 100%; border-collapse: collapse; }
+    td, th { padding: 12px; border-bottom: 1px solid #1e293b; text-align: left; vertical-align: top; }
+    a { color: #38bdf8; }
+    .muted { opacity: .8; }
+    .err { color: #f87171; }
+    .empty { opacity: .85; }
   </style>
 </head>
 <body>
@@ -26,33 +27,134 @@
 
     const board = document.getElementById("board");
 
+    function escapeHtml(value) {
+      return String(value == null ? "" : value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function normalizeSkillsPayload(payload) {
+      if (Array.isArray(payload)) return payload;
+      if (payload && Array.isArray(payload.items)) return payload.items;
+      if (payload && Array.isArray(payload.data)) return payload.data;
+      return [];
+    }
+
+    function pickSkillName(item) {
+      if (!item) return "";
+      return item.skill || item.skillName || item.name || item.title || "";
+    }
+
+    function pickAuthorName(item) {
+      if (!item) return "";
+      return item.author || item.authorName || item.user || item.username || item.submitter || "";
+    }
+
+    function pickScore(item) {
+      let raw = 0;
+      if (item) {
+        if (item.score != null) raw = item.score;
+        else if (item.votes != null) raw = item.votes;
+        else if (item.points != null) raw = item.points;
+        else if (item.rating != null) raw = item.rating;
+      }
+      const num = Number(raw);
+      return Number.isFinite(num) ? num : 0;
+    }
+
+    function clearMuted() {
+      board.classList.remove("muted");
+    }
+
+    function renderEmptyState(message) {
+      clearMuted();
+      board.innerHTML = `<p class="empty">${escapeHtml(message || "No leaderboard data yet")}</p>`;
+    }
+
+    function renderErrorState(message) {
+      clearMuted();
+      board.innerHTML = `<p class="err">Failed to load leaderboard data: ${escapeHtml(message || "Unknown fetch error")}</p>`;
+    }
+
+    function renderLeaderboard(payload) {
+      const skills = normalizeSkillsPayload(payload);
+
+      if (!skills.length) {
+        renderEmptyState("No leaderboard data yet");
+        return;
+      }
+
+      const normalized = skills
+        .map((item) => {
+          return {
+            skill: pickSkillName(item),
+            author: pickAuthorName(item),
+            score: pickScore(item)
+          };
+        })
+        .filter((item) => {
+          const skill = String(item.skill || "").trim();
+          const author = String(item.author || "").trim();
+          const score = Number(item.score || 0);
+          return skill !== "" || author !== "" || score !== 0;
+        });
+
+      if (!normalized.length) {
+        renderEmptyState("No leaderboard data yet");
+        return;
+      }
+
+      const sorted = normalized
+        .slice()
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 10);
+
+      let html = `
+        <table>
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Skill</th>
+              <th>Author</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+      sorted.forEach((item, i) => {
+        const skill = escapeHtml(item.skill || "");
+        const author = escapeHtml(item.author || "");
+        const score = Number(item.score || 0);
+
+        html += `
+          <tr>
+            <td>${i + 1}</td>
+            <td>${skill}</td>
+            <td>${author}</td>
+            <td>${score}</td>
+          </tr>
+        `;
+      });
+
+      html += `
+          </tbody>
+        </table>
+      `;
+
+      clearMuted();
+      board.innerHTML = html;
+    }
+
     async function load() {
       try {
-        const skills = await getSkills();
-
-        if (!Array.isArray(skills) || !skills.length) {
-          board.innerHTML = "<p>No leaderboard data yet.</p>";
-          return;
-        }
-
-        const sorted = skills
-          .slice()
-          .sort((a,b) => Number(b.score || 0) - Number(a.score || 0))
-          .slice(0,10);
-
-        let html = "<table><tr><th>Rank</th><th>Skill</th><th>Author</th><th>Score</th></tr>";
-        sorted.forEach((s, i) => {
-          html += <tr>
-            <td>\</td>
-            <td>\</td>
-            <td>\</td>
-            <td>\</td>
-          </tr>;
-        });
-        html += "</table>";
-        board.innerHTML = html;
+        const payload = await getSkills();
+        renderLeaderboard(payload);
       } catch (err) {
-        board.innerHTML = '<p class="err">Load failed: ' + err.message + '</p>';
+        renderErrorState(err && err.message ? err.message : "Unknown fetch error");
       }
     }
 
